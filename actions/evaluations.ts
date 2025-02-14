@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db";
+import db from "@/lib/db";
 
 export async function submitEvaluation(studentId: string, formData: FormData) {
   const courseId = formData.get("courseId")?.toString() || "";

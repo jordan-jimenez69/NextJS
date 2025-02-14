@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db";
+import db from "@/lib/db";
 
 export async function enrollStudent(courseId: string, studentId: string) {
   await db.query(

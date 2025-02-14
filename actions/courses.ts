@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db";
+import db from "@/lib/db";
 
 export async function createCourse(formData: FormData) {
   const title = formData.get("title")?.toString() || "";

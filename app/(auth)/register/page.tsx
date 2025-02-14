@@ -12,17 +12,19 @@ export default function RegisterPage() {
   const handleRegister = async () => {
     setError("");
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/authent/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
+
       if (response.ok) {
-        router.push("/auth/login");
+        router.push("/login");
       } else {
-        setError("Une erreur s'est produite. Veuillez réessayer.");
+        const { message } = await response.json();
+        setError(message || "Erreur lors de l'inscription.");
       }
-    } catch (error) {
+    } catch {
       setError("Erreur réseau.");
     }
   };
@@ -53,7 +55,9 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button onClick={handleRegister} className="w-full">S'inscrire</button>
+        <button onClick={handleRegister} className="w-full">
+          S'inscrire
+        </button>
       </div>
     </div>
   );
