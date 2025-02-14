@@ -1,13 +1,37 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { Session } from "next-auth";
+
+// Extend the session type to include the role property
+declare module "next-auth" {
+  interface Session {
+    user: {
+      role?: string;
+    };
+  }
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { data: session, status } = useSession(); // Récupérer la session
   const router = useRouter();
+
+  useEffect(() => {
+    // Si l'utilisateur est déjà connecté, redirigez-le en fonction de son rôle
+    if (status === "authenticated" && session?.user?.role) {
+      if (session.user.role === "student") {
+        router.push("/student/courses");
+      } else if (session.user.role === "teacher") {
+        router.push("/teacher/dashboard");
+      } else if (session.user.role === "admin") {
+        router.push("/admin/dashboard");
+      }
+    }
+  }, [status, session, router]);
 
   const handleLogin = async () => {
     setError("");
@@ -16,10 +40,20 @@ export default function LoginPage() {
       password,
       redirect: false,
     });
+
     if (result?.error) {
       setError("Identifiants incorrects. Veuillez réessayer.");
     } else {
-      router.push("/dashboard");
+      // Attendez que la session soit mise à jour avant de rediriger
+      if (status === "authenticated" && session?.user?.role) {
+        if (session.user.role === "student") {
+          router.push("/student/courses");
+        } else if (session.user.role === "teacher") {
+          router.push("/teacher/dashboard");
+        } else if (session.user.role === "admin") {
+          router.push("/admin/dashboard");
+        }
+      }
     }
   };
 
