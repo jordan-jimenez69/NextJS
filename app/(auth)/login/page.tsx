@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
-import { Session } from "next-auth";
 
 // Extend the session type to include the role property
 declare module "next-auth" {
@@ -26,9 +25,9 @@ export default function LoginPage() {
       if (session.user.role === "student") {
         router.push("/student/courses");
       } else if (session.user.role === "teacher") {
-        router.push("/teacher/dashboard");
+        router.push("/teacher/courses");
       } else if (session.user.role === "admin") {
-        router.push("/admin/dashboard");
+        router.push("/admin/reports");
       }
     }
   }, [status, session, router]);
@@ -39,22 +38,7 @@ export default function LoginPage() {
       email,
       password,
       redirect: false,
-    });
-
-    if (result?.error) {
-      setError("Identifiants incorrects. Veuillez réessayer.");
-    } else {
-      // Attendez que la session soit mise à jour avant de rediriger
-      if (status === "authenticated" && session?.user?.role) {
-        if (session.user.role === "student") {
-          router.push("/student/courses");
-        } else if (session.user.role === "teacher") {
-          router.push("/teacher/dashboard");
-        } else if (session.user.role === "admin") {
-          router.push("/admin/dashboard");
-        }
-      }
-    }
+    });  
   };
 
   return (
