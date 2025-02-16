@@ -1,3 +1,4 @@
-export default function TeacherDashboard() {
-  return <h1 className="text-2xl font-bold">Bienvenue, Professeur !</h1>;
+export default function TeacherStudents() {
+  return <h1 className="text-2xl font-bold">Liste des élèves</h1>;
 }
+

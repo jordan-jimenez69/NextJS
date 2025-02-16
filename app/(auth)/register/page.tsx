@@ -6,16 +6,17 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleRegister = async () => {
     setError("");
     try {
-      const response = await fetch("/api/authent/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, role }),
       });
 
       if (response.ok) {
@@ -40,6 +41,7 @@ export default function RegisterPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
         <input
           type="email"
           placeholder="Email"
@@ -47,6 +49,7 @@ export default function RegisterPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
         <input
           type="password"
           placeholder="Mot de passe"
@@ -54,10 +57,24 @@ export default function RegisterPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {/* Sélection du rôle */}
+        <select
+          className="w-full border p-2 rounded"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="student">Étudiant</option>
+          <option value="teacher">Professeur</option>
+          <option value="admin">Admin</option>
+        </select>
+
         {error && <p className="text-red-500 text-sm">{error}</p>}
+
         <button onClick={handleRegister} className="w-full">
           S'inscrire
         </button>
+
       </div>
     </div>
   );

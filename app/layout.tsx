@@ -1,8 +1,9 @@
-"use client"; // Cette ligne indique que ce fichier doit être exécuté côté client
+"use client";
 
 import { Geist, Geist_Mono } from "next/font/google";
-import { SessionProvider } from "next-auth/react"; // Assurez-vous d'importer SessionProvider
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
+import Header from "./components/ui/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider> {/* Déplacer le SessionProvider dans un composant Client */}
+        <SessionProvider> { }
+          <Header />
           {children}
         </SessionProvider>
       </body>

@@ -4,9 +4,9 @@ import pool from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, role } = await req.json();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       return NextResponse.json({ error: "Tous les champs sont obligatoires." }, { status: 400 });
     }
 
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
     await pool.query(
       "INSERT INTO users (name, email, password, role, created_at) VALUES ($1, $2, $3, $4, NOW())",
-      [name, email, hashedPassword, "student"]
+      [name, email, hashedPassword, role]
     );
 
     return NextResponse.json({ message: "Inscription réussie !" }, { status: 201 });
