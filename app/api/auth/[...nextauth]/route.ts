@@ -18,7 +18,7 @@ export const authOptions = {
           return null;
         }
         const { email, password } = credentials;
-        const userRes = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        const userRes = await pool.query("SELECT * FROM utilisateur WHERE email = $1", [email]);
         if (userRes.rows.length === 0) return null;
 
         const user = userRes.rows[0];

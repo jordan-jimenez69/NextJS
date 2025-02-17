@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Tous les champs sont obligatoires." }, { status: 400 });
     }
 
-    const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    const existingUser = await pool.query("SELECT * FROM utilisateur WHERE email = $1", [email]);
     if (existingUser.rows.length > 0) {
       return NextResponse.json({ error: "Cet utilisateur existe déjà." }, { status: 409 });
     }
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await pool.query(
-      "INSERT INTO users (name, email, password, role, created_at) VALUES ($1, $2, $3, $4, NOW())",
+      "INSERT INTO utilisateur (name, email, password, role, created_at) VALUES ($1, $2, $3, $4, NOW())",
       [name, email, hashedPassword, role]
     );
 
