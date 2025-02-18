@@ -8,14 +8,12 @@ export default function AddCourse() {
   const [description, setDescription] = useState("");
   const [instrument, setInstrument] = useState("");
   const [level, setLevel] = useState("");
-  const [schedule, setSchedule] = useState("");  // Nouvel champ pour l'emploi du temps
-  const [capacity, setCapacity] = useState(0);  // Nouvel champ pour la capacité
+  const [schedule, setSchedule] = useState("");
+  const [capacity, setCapacity] = useState(0); 
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const teacherId = "teacher-id"; // Remplacer par l'ID de l'enseignant connecté
 
     const response = await fetch("/api/courses", {
       method: "POST",
@@ -26,17 +24,17 @@ export default function AddCourse() {
         title,
         description,
         instrument,
-        teacherId,
         level,
         schedule,
         capacity,
       }),
     });
-
+  
     if (response.ok) {
       router.push("/teacher/courses");
     } else {
-      alert("Erreur lors de l'ajout du cours.");
+      const errorData = await response.json();
+      alert(errorData.error || "Erreur lors de l'ajout du cours.");
     }
   };
 
