@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
-// Extend the session type to include the role property
 declare module "next-auth" {
   interface Session {
     user: {

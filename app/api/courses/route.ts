@@ -27,7 +27,11 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const courses = await pool.query("SELECT * FROM cours");
+    const courses = await pool.query(
+      `SELECT c.*, u.name AS teacher_name
+       FROM cours c 
+       LEFT JOIN utilisateur u ON c."teacher_id" = u.id`
+    );
     return NextResponse.json(courses.rows);
   } catch (error) {
     console.error(error);
