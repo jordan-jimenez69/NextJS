@@ -70,7 +70,7 @@ export default function TeacherDashboard() {
           ) : (
             <ul>
               {courses.map((course) => (
-                <li key={course._id} {...course} className="flex justify-between items-center p-2 border-b">
+                <li key={course._id} className="flex justify-between items-center p-2 border-b">
                   <div>
                     <h2 className="font-semibold">{course.title}</h2>
                     <p>{course.instrument} - {course.level}</p>
