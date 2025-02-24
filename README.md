@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Documentation d'Installation et Présentation du Projet
 
-## Getting Started
+## 0. Guide Utilisateur Basique
 
-First, run the development server:
+### Connexion et Rôles
+L'application propose plusieurs rôles utilisateur :
+- **Administrateur** : Gestion des utilisateurs, cours et inscriptions.
+- **Enseignant** : Gestion des cours et suivi des élèves.
+- **Étudiant** : Inscription aux cours et suivi de progression.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Fonctionnalités Principales
+- **Authentification sécurisée** via NextAuth.js
+- **Gestion des cours** : Création, modification et suppression
+- **Inscriptions aux cours** : Élèves peuvent s'inscrire aux cours
+- **Suivi de progression** : Évaluation et commentaires des enseignants
+- **Interface responsive** avec Tailwind CSS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Navigation
+Lien Vercel : https://next-js-tan-ten.vercel.app/
+- `/login` : Page de connexion
+- `/register` : Page d'inscription
+- `/teacher/courses` : Gestion des cours pour les enseignants
+- `/student/courses` : Inscriptions aux cours pour les élèves
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 1. Présentation des Choix Techniques
 
-## Learn More
+### **Stack Technologique**
+- **Frontend** : Next.js (React, Tailwind CSS)
+- **Backend** : Node.js avec API REST
+- **Base de données** : PostgreSQL avec `pg` pour les requêtes
+- **Authentification** : NextAuth.js
+- **Déploiement** : Serveur Linux
 
-To learn more about Next.js, take a look at the following resources:
+### **Architecture de l'Application**
+- **Base de données** :
+  - `Course` : id, title, description, instrument, teacherId, level, schedule, capacity
+  - `Enrollment` : id, studentId, courseId, enrollmentDate, status
+  - `Progress` : id, studentId, courseId, date, evaluation, comments
+- **API Routes** :
+  - `/api/courses` : CRUD des cours
+  - `/api/enrollments` : Gestion des inscriptions
+  - `/api/auth` : Authentification NextAuth.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **Protection des Routes et Sécurité**
+- Middleware de protection selon le rôle utilisateur
+- Vérification des permissions dans l’API
+- Gestion des sessions avec NextAuth.js
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Prérequis**
+- Node.js installé
+- Fichier DB PostgreSQL
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **Étapes d'Installation**
+1. **Cloner le projet**
+   ```sh
+   git clone https://github.com/mon-projet.git
+   cd mon-projet
+   ```
+2. **Installer les dépendances**
+   ```sh
+   npm install
+   ```
+3. **Configurer la base de données**
+   - Modifier `.env` avec les infos de PostgreSQL
+   - Exécuter les migrations si nécessaire
+4. **Lancer le projet en développement**
+   ```sh
+   npm run dev
+   ```
