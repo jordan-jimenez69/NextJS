@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Course {
-  _id: string;
+  id: string;
   title: string;
   instrument: string;
   level: string;
@@ -39,9 +39,7 @@ export default function TeacherDashboard() {
       console.error("ID du cours manquant");
       return;
     }
-
-    console.log("Supprimer le cours avec ID:", id); // Ajoutez un log pour confirmer que l'ID est correct
-
+    
     if (!confirm("Voulez-vous vraiment supprimer ce cours ?")) return;
 
     try {
@@ -49,7 +47,7 @@ export default function TeacherDashboard() {
       if (!res.ok) {
         throw new Error("Erreur lors de la suppression du cours");
       }
-      setCourses(courses.filter((course) => course._id !== id));
+      setCourses(courses.filter((course) => course.id !== id));
     } catch (error) {
       console.error("Erreur lors de la suppression du cours:", error);
     }
@@ -76,7 +74,7 @@ export default function TeacherDashboard() {
           ) : (
             <ul>
               {courses.map((course) => (
-                <li key={course._id} className="flex justify-between items-center p-2 border-b">
+                <li key={course.id} className="flex justify-between items-center p-2 border-b">
                   <div>
                     <h2 className="font-semibold">{course.title}</h2>
                     <p>{course.instrument} - {course.level}</p>
@@ -85,8 +83,8 @@ export default function TeacherDashboard() {
                   <div>
                     <button
                       onClick={() => {
-                        console.log("Éditer le cours avec ID:", course._id); // Ajoutez un log ici aussi
-                        router.push(`/teacher/courses/edit/${course._id}`);
+                        console.log("Éditer le cours avec ID:", course.id); // Ajoutez un log ici aussi
+                        router.push(`/teacher/courses/edit/${course.id}`);
                       }}
                       className="bg-yellow-500 px-3 py-1 text-white rounded mr-2"
                     >
@@ -94,7 +92,7 @@ export default function TeacherDashboard() {
                     </button>
 
                     <button
-                      onClick={() => handleDelete(course._id)}
+                      onClick={() => handleDelete(course.id)}
                       className="bg-red-500 px-3 py-1 text-white rounded"
                     >
                       Supprimer
