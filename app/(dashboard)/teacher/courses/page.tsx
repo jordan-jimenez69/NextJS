@@ -16,7 +16,6 @@ export default function TeacherDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    // Récupérer les cours de l'enseignant depuis l'API
     fetch("/api/courses")
       .then((res) => {
         if (!res.ok) {
@@ -32,13 +31,20 @@ export default function TeacherDashboard() {
         console.error("Erreur lors de la récupération des cours:", error);
         setLoading(false);
       });
-  }, []);
+  }, []); // Assurez-vous que ce tableau est vide
+
 
   const handleDelete = async (id: string) => {
+    if (!id) {
+      console.error("ID du cours manquant");
+      return;
+    }
+
+    console.log("Supprimer le cours avec ID:", id); // Ajoutez un log pour confirmer que l'ID est correct
+
     if (!confirm("Voulez-vous vraiment supprimer ce cours ?")) return;
 
     try {
-      // Suppression du cours via l'API
       const res = await fetch(`/api/courses/${id}`, { method: "DELETE" });
       if (!res.ok) {
         throw new Error("Erreur lors de la suppression du cours");
@@ -78,7 +84,10 @@ export default function TeacherDashboard() {
 
                   <div>
                     <button
-                      onClick={() => router.push(`/teacher/courses/edit/${course._id}`)}
+                      onClick={() => {
+                        console.log("Éditer le cours avec ID:", course._id); // Ajoutez un log ici aussi
+                        router.push(`/teacher/courses/edit/${course._id}`);
+                      }}
                       className="bg-yellow-500 px-3 py-1 text-white rounded mr-2"
                     >
                       Modifier

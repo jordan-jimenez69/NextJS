@@ -68,7 +68,6 @@ Lien Vercel : https://next-js-tan-ten.vercel.app/
    ```
 3. **Configurer la base de données**
    - Modifier `.env` avec les infos de PostgreSQL
-   - Exécuter les migrations si nécessaire
 4. **Lancer le projet en développement**
    ```sh
    npm run dev

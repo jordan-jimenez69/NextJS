@@ -36,24 +36,24 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Erreur serveur." }, { status: 500 });
-  }
+  } 
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "teacher") {
       return NextResponse.json({ error: "Non autorisé." }, { status: 403 });
     }
 
-    const { id, title, description } = await req.json();
+    const { title, description } = await req.json();
+    const { id } = params;  // Récupère l'id du cours depuis les paramètres d'URL
 
     const existingCourse = await pool.query("SELECT * FROM cours WHERE id = $1", [id]);
     if (existingCourse.rows.length === 0) {
       return NextResponse.json({ error: "Cours introuvable." }, { status: 404 });
     }
 
-    // Vérifie si l'utilisateur est bien le propriétaire du cours
     if (existingCourse.rows[0].teacher_id !== session.user.id) {
       return NextResponse.json({ error: "Accès interdit." }, { status: 403 });
     }
@@ -69,6 +69,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "Erreur serveur." }, { status: 500 });
   }
 }
+
 
 export async function DELETE(req: NextRequest) {
   try {

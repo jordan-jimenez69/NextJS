@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation"; // Assurez-vous que useParams vient de next/navigation
 
 export default function EditCourse() {
+  const { id } = useParams(); // Utilisez useParams() pour récupérer l'ID depuis l'URL dynamique
+  const router = useRouter();
+
   interface Course {
     title: string;
     description: string;
@@ -13,17 +16,20 @@ export default function EditCourse() {
 
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
-  const { id } = useParams();
-  const router = useRouter();
 
   useEffect(() => {
+    if (!id) return; // Ajoutez cette vérification pour éviter les erreurs avant que l'ID soit disponible
     fetch(`/api/courses/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setCourse(data);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement du cours :", error);
+        setLoading(false);
       });
-  }, [id]);
+  }, [id]); // Recharger lorsque l'ID change
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
