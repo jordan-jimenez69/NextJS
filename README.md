@@ -12,6 +12,7 @@ L'application propose plusieurs rôles utilisateur :
 - **Authentification sécurisée** via NextAuth.js
 - **Gestion des cours** : Création, modification et suppression
 - **Inscriptions aux cours** : Élèves peuvent s'inscrire aux cours
+- **Validation des inscription** : Les admins autorise ou non les élèves aux cours
 - **Suivi de progression** : Évaluation et commentaires des enseignants
 - **Interface responsive** avec Tailwind CSS
 
@@ -21,6 +22,8 @@ Lien Vercel : https://next-js-tan-ten.vercel.app/
 - `/register` : Page d'inscription
 - `/teacher/courses` : Gestion des cours pour les enseignants
 - `/student/courses` : Inscriptions aux cours pour les élèves
+- `/admin/users` : Autorisation aux eleves aux cours
+
 
 ---
 
@@ -38,6 +41,7 @@ Lien Vercel : https://next-js-tan-ten.vercel.app/
   - `Course` : id, title, description, instrument, teacherId, level, schedule, capacity
   - `Enrollment` : id, studentId, courseId, enrollmentDate, status
   - `Progress` : id, studentId, courseId, date, evaluation, comments
+  - `utilisateur` : id, name, email, password, created_at
 - **API Routes** :
   - `/api/courses` : CRUD des cours
   - `/api/enrollments` : Gestion des inscriptions
