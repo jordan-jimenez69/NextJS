@@ -26,7 +26,7 @@ export default function LoginPage() {
       } else if (session.user.role === "teacher") {
         router.push("/teacher/courses");
       } else if (session.user.role === "admin") {
-        router.push("/admin/reports");
+        router.push("/admin/users");
       }
     }
   }, [status, session, router]);
